@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 
+import { TAppState } from '../../store/app.state';
 import { customIncrement } from '../state/counter.actions';
 
 @Component({
@@ -11,7 +12,7 @@ import { customIncrement } from '../state/counter.actions';
 export class CustomCounterInputComponent implements OnInit {
   value!: number;
 
-  constructor(private store: Store<number>) {}
+  constructor(private store: Store<TAppState>) {}
 
   ngOnInit(): void {}
 

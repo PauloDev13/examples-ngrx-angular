@@ -4,5 +4,5 @@ import { TPostsState } from './posts.state';
 
 export const getPosts = createAction(
   '[posts] Get All Posts',
-  props<{ payload: TPostsState }>(),
+  props<{ posts: TPostsState }>(),
 );

@@ -6,6 +6,6 @@ const selectCounterState = createFeatureSelector<TCounterState>('counter');
 export const selectCounter = createSelector(
   selectCounterState,
   (state: TCounterState) => {
-    return state;
+    return state.counter;
   },
 );
