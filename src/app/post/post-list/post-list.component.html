@@ -1,7 +1,10 @@
 <div class="row">
-  <div class="col-md-12">
+  <div class="col-md-8">
     <h3>Posts List</h3>
 
+    <div>
+      <a [routerLink]="['/posts/add']" class="btn btn-primary">New Post</a>
+    </div>
     <table *ngIf="posts$ | async as postsData" class="table table-striped">
       <thead>
         <tr>
@@ -19,5 +22,8 @@
         </tr>
       </tbody>
     </table>
+  </div>
+  <div class="col-md-4">
+    <router-outlet></router-outlet>
   </div>
 </div>
