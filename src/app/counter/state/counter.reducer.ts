@@ -1,6 +1,6 @@
 import { Action, createReducer, on } from '@ngrx/store';
 
-import { customIncrement, decrement, increment, reset } from './counter.action';
+import { customIncrement, decrement, increment, reset } from './counter.actions';
 import { ICounterState, initialState } from './counter.state';
 
 const _counterReducer = createReducer(
