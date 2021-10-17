@@ -1,11 +1,11 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 
-import { ICounterState } from './counter.state';
+import { TCounterState } from './counter.state';
 
-const selectCounterState = createFeatureSelector<ICounterState>('counter');
+const selectCounterState = createFeatureSelector<TCounterState>('counter');
 export const selectCounter = createSelector(
   selectCounterState,
-  (state: ICounterState) => {
+  (state: TCounterState) => {
     return state;
   },
 );

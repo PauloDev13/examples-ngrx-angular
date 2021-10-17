@@ -1,30 +1,30 @@
 import { Action, createReducer, on } from '@ngrx/store';
 
 import { customIncrement, decrement, increment, reset } from './counter.actions';
-import { ICounterState, initialState } from './counter.state';
+import { TCounterState, initialState } from './counter.state';
 
 const _counterReducer = createReducer(
   initialState,
-  on(increment, (state): ICounterState => {
+  on(increment, (state): TCounterState => {
     return {
       ...state,
       counter: state.counter + 1,
     };
   }),
-  on(decrement, (state): ICounterState => {
+  on(decrement, (state): TCounterState => {
     return {
       ...state,
       counter: state.counter - 1,
     };
   }),
-  on(reset, (state): ICounterState => {
+  on(reset, (state): TCounterState => {
     return {
       ...state,
       counter: 0,
     };
   }),
 
-  on(customIncrement, (state, action): ICounterState => {
+  on(customIncrement, (state, action): TCounterState => {
     console.log(action);
     const { value } = action.payload;
     return {

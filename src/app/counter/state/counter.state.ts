@@ -1,7 +1,7 @@
-export interface ICounterState {
-  counter: number;
-}
+import { ICounter } from '../../interfaces/counter.interface';
 
-export const initialState: ICounterState = {
+export type TCounterState = ICounter;
+
+export const initialState: TCounterState = {
   counter: 4,
 };
