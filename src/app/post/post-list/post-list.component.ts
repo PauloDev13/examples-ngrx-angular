@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 
 import { IPost } from '../../interfaces/post.interface';
 import { TAppState } from '../../store/app.state';
+import { deletePost } from '../state/posts.actions';
 import { selectPosts } from '../state/posts.selector';
 
 @Component({
@@ -18,5 +19,11 @@ export class PostListComponent implements OnInit {
 
   ngOnInit(): void {
     this.posts$ = this.store.select(selectPosts);
+  }
+
+  onDeletePost(post: IPost) {
+    if (confirm(`Are you sure want to delete Post: ${post.title.toUpperCase()}?`)) {
+      this.store.dispatch(deletePost({ post }));
+    }
   }
 }

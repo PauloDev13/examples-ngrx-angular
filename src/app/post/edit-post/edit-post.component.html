@@ -29,9 +29,15 @@
       </div>
 
       <div class="mb-3">
-        <button [disabled]="editForm.invalid" class="btn btn-primary" type="submit">
-          Update Post
+        <button
+          [disabled]="editForm.invalid"
+          class="btn btn-primary btn-sm"
+          type="submit"
+        >
+          Save
         </button>
+        &nbsp;
+        <button [routerLink]="['/posts']" class="btn btn-secondary btn-sm">Cancel</button>
       </div>
     </form>
   </div>
