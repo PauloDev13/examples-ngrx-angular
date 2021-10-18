@@ -5,7 +5,7 @@ import { CounterComponent } from './counter/counter.component';
 
 const routes: Routes = [
   {
-    path: 'counter',
+    path: '',
     component: CounterComponent,
   },
 ];
