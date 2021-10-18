@@ -29,6 +29,7 @@
         "ngrx/no-typed-global-store": 0,
         "ngrx/use-selector-in-select": 0,
         "ngrx/avoid-mapping-selectors": 0,
+        "ngrx/no-store-subscription": 0,
         "comma-dangle": [
           "off",
           "always-multiline"

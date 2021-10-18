@@ -1,4 +1,4 @@
-import { ICounter } from '../../interfaces/counter.interface';
+import { ICounter } from '~/interfaces/counter.interface';
 
 export type TCounterState = ICounter;
 

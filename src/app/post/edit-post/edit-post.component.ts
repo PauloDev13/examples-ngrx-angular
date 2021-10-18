@@ -4,10 +4,10 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 
-import { IPost } from '../../interfaces/post.interface';
-import { TAppState } from '../../store/app.state';
-import { updatePost } from '../state/posts.actions';
-import { selectPostByIdMulti } from '../state/posts.selector';
+import { IPost } from '~/interfaces/post.interface';
+import { updatePost } from '~/post/state/posts.actions';
+import { selectPostByIdProps } from '~/post/state/posts.selector';
+import { TAppState } from '~/store/app.state';
 
 @Component({
   selector: 'app-edit-post',
@@ -30,7 +30,7 @@ export class EditPostComponent implements OnInit, OnDestroy {
     this.activeRoute.params.subscribe((params) => {
       const id = params.id;
       this.postSubscription = this.store
-        .select(selectPostByIdMulti({ id }))
+        .select(selectPostByIdProps({ id }))
         .subscribe((data) => {
           if (data) {
             this.post = data;

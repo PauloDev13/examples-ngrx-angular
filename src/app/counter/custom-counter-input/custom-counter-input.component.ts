@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 
-import { TAppState } from '../../store/app.state';
-import { customIncrement } from '../state/counter.actions';
+import { customIncrement } from '~/counter/state/counter.actions';
+import { TAppState } from '~/store/app.state';
 
 @Component({
   selector: 'app-custom-counter-input',

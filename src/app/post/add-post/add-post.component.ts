@@ -3,9 +3,9 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
-import { IPost } from '../../interfaces/post.interface';
-import { TAppState } from '../../store/app.state';
-import { addPost } from '../state/posts.actions';
+import { IPost } from '~/interfaces/post.interface';
+import { addPost } from '~/post/state/posts.actions';
+import { TAppState } from '~/store/app.state';
 
 @Component({
   selector: 'app-add-post',

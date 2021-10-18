@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
-import { TAppState } from '../../store/app.state';
-import { selectCounter } from '../state/counter.selectors';
+import { selectCounter } from '~/counter/state/counter.selectors';
+import { TAppState } from '~/store/app.state';
 
 @Component({
   selector: 'app-counter-output',

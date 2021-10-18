@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 
-import { TAppState } from '../../store/app.state';
-import { decrement, increment, reset } from '../state/counter.actions';
+import { decrement, increment, reset } from '~/counter/state/counter.actions';
+import { TAppState } from '~/store/app.state';
 
 @Component({
   selector: 'app-counter-button',
