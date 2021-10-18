@@ -19,5 +19,8 @@ export class LoginComponent implements OnInit {
     this.loginForm = this.formBuilder.group(this.controls);
   }
 
-  onLoginSubmit() {}
+  onLoginSubmit() {
+    console.log(this.loginForm.value);
+    this.loginForm.reset();
+  }
 }

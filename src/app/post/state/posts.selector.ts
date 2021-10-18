@@ -1,6 +1,6 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 
-import { POSTS_STATE_NAME } from '~/interfaces/counter.interface';
+import { POSTS_STATE_NAME } from '~/interfaces/post.interface';
 
 import { TPostsState } from './posts.state';
 
