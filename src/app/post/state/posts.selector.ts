@@ -6,3 +6,15 @@ const selectPostsState = createFeatureSelector<TPostsState>('posts');
 export const selectPosts = createSelector(selectPostsState, (state: TPostsState) => {
   return state.posts;
 });
+
+export const selectPostById = createSelector(
+  selectPostsState,
+  (state: TPostsState, props: { id: string }) => {
+    return state.posts.find((post) => post.id === props.id);
+  },
+);
+
+export const selectPostByIdMulti = (props: { id: string }) =>
+  createSelector(selectPostsState, (state: TPostsState) => {
+    return state.posts.find((post) => post.id === props.id);
+  });
