@@ -1,11 +1,12 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 
 import { IPost } from '../../interfaces/post.interface';
 import { TAppState } from '../../store/app.state';
+import { updatePost } from '../state/posts.actions';
 import { selectPostByIdMulti } from '../state/posts.selector';
 
 @Component({
@@ -22,6 +23,7 @@ export class EditPostComponent implements OnInit, OnDestroy {
     private formBuilder: FormBuilder,
     private activeRoute: ActivatedRoute,
     private store: Store<TAppState>,
+    private route: Router,
   ) {}
 
   ngOnInit(): void {
@@ -51,10 +53,18 @@ export class EditPostComponent implements OnInit, OnDestroy {
     });
   }
 
-  onEditPost() {
+  onSubmit() {
     if (this.editForm.invalid) {
       return;
     }
+
+    const post: IPost = {
+      ...this.editForm.value,
+      id: this.post.id,
+    };
+
+    this.store.dispatch(updatePost({ post }));
+    this.route.navigate(['/posts']).then();
   }
 
   showDescriptionErrors(): string {
@@ -72,8 +82,6 @@ export class EditPostComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    if (this.postSubscription) {
-      this.postSubscription.unsubscribe();
-    }
+    this.postSubscription.unsubscribe();
   }
 }

@@ -2,7 +2,7 @@
   <div class="col-md-12">
     <h3>Edit Post</h3>
     <hr />
-    <form [formGroup]="editForm">
+    <form (ngSubmit)="onSubmit()" [formGroup]="editForm">
       <div class="mb-3">
         <label>Title</label>
         <input class="form-control" formControlName="title" type="text" />
@@ -29,11 +29,7 @@
       </div>
 
       <div class="mb-3">
-        <button
-          (click)="onEditPost()"
-          [disabled]="editForm.invalid"
-          class="btn btn-primary"
-        >
+        <button [disabled]="editForm.invalid" class="btn btn-primary" type="submit">
           Update Post
         </button>
       </div>
