@@ -1,0 +1,54 @@
+<div class="row">
+  <div class="col-md-6 offset-md-3">
+    <h3>Login</h3>
+    <hr />
+    <form (ngSubmit)="onLoginSubmit()" [formGroup]="loginForm">
+      <div class="mb-3">
+        <label>E-mail</label>
+        <input class="form-control" formControlName="email" type="email" />
+
+        <div *ngIf="loginForm.get('email')?.touched && loginForm.get('email')?.invalid">
+          <p *ngIf="loginForm.get('email')?.errors?.required" style="color: red">
+            E-mail is required
+          </p>
+          <p *ngIf="loginForm.get('email')?.errors?.email" style="color: red">
+            E-mail invalid
+          </p>
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <label>Password</label>
+        <input class="form-control" formControlName="password" type="password" />
+
+        <div
+          *ngIf="loginForm.get('password')?.touched && loginForm.get('password')?.invalid"
+        >
+          <p *ngIf="loginForm.get('password')?.errors?.required" style="color: red">
+            Password is required
+          </p>
+          <p
+            *ngIf="
+              loginForm.get('password')?.errors &&
+              !loginForm.get('password')?.errors?.required
+            "
+            style="color: red"
+          >
+            Password should be minimum 6 characters
+          </p>
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <button
+          [disabled]="loginForm.invalid"
+          class="btn btn-primary btn-sm"
+          type="submit"
+        >
+          Login
+        </button>
+        &nbsp;Not registered? <a [routerLink]="['/auth', 'signup']">Register here</a>
+      </div>
+    </form>
+  </div>
+</div>

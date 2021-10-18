@@ -1,0 +1,82 @@
+<div class="row">
+  <div class="col-md-6 offset-md-3">
+    <h3>Register</h3>
+    <hr />
+    <form (ngSubmit)="onSubmit()" [formGroup]="signupForm">
+      <div class="mb-3">
+        <label>Full Name</label>
+        <input class="form-control" formControlName="name" type="text" />
+
+        <div *ngIf="signupForm.get('name')?.touched && signupForm.get('name')?.invalid">
+          <p *ngIf="signupForm.get('name')?.errors?.required" style="color: red">
+            Name is required
+          </p>
+          <p
+            *ngIf="
+              signupForm.get('name')?.errors && !signupForm.get('name')?.errors?.required
+            "
+            style="color: red"
+          >
+            E-mail should be minimum 10 characters
+          </p>
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <label>E-mail</label>
+        <input class="form-control" formControlName="email" type="email" />
+
+        <div *ngIf="signupForm.get('email')?.touched && signupForm.get('email')?.invalid">
+          <p *ngIf="signupForm.get('email')?.errors?.required" style="color: red">
+            E-mail is required
+          </p>
+          <p
+            *ngIf="
+              signupForm.get('email')?.errors?.email &&
+              !signupForm.get('name')?.errors?.required
+            "
+            style="color: red"
+          >
+            E-mail is invalid
+          </p>
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <label>Password</label>
+        <input class="form-control" formControlName="password" type="password" />
+
+        <div
+          *ngIf="
+            signupForm.get('password')?.touched && signupForm.get('password')?.invalid
+          "
+        >
+          <p *ngIf="signupForm.get('password')?.errors?.required" style="color: red">
+            Password is required
+          </p>
+          <p
+            *ngIf="
+              signupForm.get('password')?.errors &&
+              !signupForm.get('password')?.errors?.required
+            "
+            style="color: red"
+          >
+            Password should be minimum 6 characters
+          </p>
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <button
+          [disabled]="signupForm.invalid"
+          [routerLink]="['/auth']"
+          class="btn btn-primary btn-sm"
+          type="submit"
+        >
+          Save
+        </button>
+        &nbsp; Already registered? <a [routerLink]="['/auth']">Login here</a>
+      </div>
+    </form>
+  </div>
+</div>
