@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Store } from '@ngrx/store';
+
+import { loginStart } from '~/auth/state/auth.actions';
+import { TAppState } from '~/store/app.state';
 
 @Component({
   selector: 'app-login',
@@ -13,14 +17,15 @@ export class LoginComponent implements OnInit {
     password: ['', [Validators.required, Validators.minLength(6)]],
   };
 
-  constructor(private formBuilder: FormBuilder) {}
+  constructor(private formBuilder: FormBuilder, private store: Store<TAppState>) {}
 
   ngOnInit(): void {
     this.loginForm = this.formBuilder.group(this.controls);
   }
 
   onLoginSubmit() {
-    console.log(this.loginForm.value);
+    const { email, password } = this.loginForm.value;
+    this.store.dispatch(loginStart({ email, password }));
     this.loginForm.reset();
   }
 }

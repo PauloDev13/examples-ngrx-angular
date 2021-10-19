@@ -9,12 +9,11 @@ interface IAuthProps {
   password: string;
 }
 
-export type TAuthProps = {
-  user: IAuthProps;
-};
+export type TAuthProps = IAuthProps;
 
-interface IAuthState {}
+interface IAuthState {
+  email: string;
+  password: string;
+}
 
-export type TAuthState = {
-  auth: IAuthState;
-};
+export type TAuthState = IAuthState;
