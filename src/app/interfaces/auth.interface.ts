@@ -1,3 +1,5 @@
+import { UserModel } from '~/interfaces/user.model';
+
 export const LOGIN_START = '[auth page] Login start';
 export const LOGIN_SUCCESS = '[auth page] Login success';
 export const LOGIN_FAIL = '[auth page] Login fail';
@@ -12,8 +14,7 @@ interface IAuthProps {
 export type TAuthProps = IAuthProps;
 
 interface IAuthState {
-  email: string;
-  password: string;
+  user: UserModel | null;
 }
 
 export type TAuthState = IAuthState;

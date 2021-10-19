@@ -14,8 +14,10 @@ export class AuthEffects {
       exhaustMap((action) => {
         const { email, password } = action;
         return this.authService.login({ email, password }).pipe(
-          map(() => {
-            return loginSuccess();
+          map((data) => {
+            console.log('Expireded ' + data.expiresIn);
+            const user = this.authService.formatUser(data);
+            return loginSuccess({ user });
           }),
           catchError(() => of(loginFail())),
         );
