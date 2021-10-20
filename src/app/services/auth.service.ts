@@ -20,12 +20,13 @@ export class AuthService {
     );
   }
 
-  // signup({ email, password }: TAuthProps): Observable<TAuthResponseData> {
-  //   return this.http.post<TAuthResponseData>(
-  //     `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${environment.FIREBASE_API_KEY}`,
-  //     { email, password, returnSecureToken: true },
-  //   );
-  // }
+  signup({ email, password }: TAuthProps): Observable<TAuthResponseData> {
+    console.log('Signup ' + email + ' - ' + password);
+    return this.http.post<TAuthResponseData>(
+      `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${environment.FIREBASE_API_KEY}`,
+      { email, password, returnSecureToken: true },
+    );
+  }
 
   formatUser({ email, idToken, localId, expiresIn }: TAuthResponseData): UserModel {
     const expirationDate = new Date(new Date().getTime() + +expiresIn * 1000);
@@ -39,6 +40,10 @@ export class AuthService {
         return 'E-mail e/ou Senha inválido';
       case 'USER_DISABLED':
         return 'Usuário bloqueado';
+      case 'EMAIL_EXISTS':
+        return 'Usuário já cadastrado para esse e-mail';
+      case 'TOO_MANY_ATTEMPTS_TRY_LATER':
+        return 'Todos os acessos foram bloqueados. Tente mais tarde';
       default:
         return 'Erro inesperado. Tente novamente';
     }
