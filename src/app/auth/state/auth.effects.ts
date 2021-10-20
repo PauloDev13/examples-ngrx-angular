@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { Actions, ofType, createEffect } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { of } from 'rxjs';
-import { catchError, exhaustMap, map } from 'rxjs/operators';
+import { catchError, exhaustMap, map, tap } from 'rxjs/operators';
 
 import { loginStart, loginSuccess } from '~/auth/state/auth.actions';
 import { AuthService } from '~/services/auth.service';
@@ -39,9 +40,22 @@ export class AuthEffects {
     );
   });
 
+  loginRedirect$ = createEffect(
+    () => {
+      return this.actions$.pipe(
+        ofType(loginSuccess),
+        tap(() => {
+          this.router.navigate(['/']).then();
+        }),
+      );
+    },
+    { dispatch: false },
+  );
+
   constructor(
     private actions$: Actions,
     private authService: AuthService,
     private store: Store<TAppState>,
+    private router: Router,
   ) {}
 }
