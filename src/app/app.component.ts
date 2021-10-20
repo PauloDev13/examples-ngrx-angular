@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
+import { autoLogin } from '~/auth/state/auth.actions';
 import { TAppState } from '~/store/app.state';
 import { selectErrorMessage, selectShared } from '~/store/shared/shared.selectors';
 
@@ -18,6 +19,7 @@ export class AppComponent implements OnInit {
   constructor(private store: Store<TAppState>) {
     this.showLoading$ = this.store.select(selectShared);
     this.errorMessage$ = this.store.select(selectErrorMessage);
+    this.store.dispatch(autoLogin());
   }
 
   ngOnInit(): void {}

@@ -1,8 +1,24 @@
 export class UserModel {
   constructor(
-    private email: string,
-    private token: string,
-    private localId: string,
-    private expirationDate: Date,
+    private _email: string,
+    private _token: string,
+    private _localId: string,
+    private _expirationDate: Date,
   ) {}
+
+  get expirationDate(): Date {
+    return this._expirationDate;
+  }
+
+  get email(): string {
+    return this._email;
+  }
+
+  get token(): string {
+    return this._token;
+  }
+
+  get localId(): string {
+    return this._localId;
+  }
 }

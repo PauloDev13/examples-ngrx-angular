@@ -1,6 +1,7 @@
 import { createAction, props } from '@ngrx/store';
 
 import {
+  AUTO_LOGIN_ACTION,
   LOGIN_START,
   LOGIN_SUCCESS,
   SIGNUP_START,
@@ -20,3 +21,5 @@ export const signupStart = createAction(
 );
 
 export const signupSuccess = createAction(SIGNUP_SUCCESS, props<{ user: UserModel }>());
+
+export const autoLogin = createAction(AUTO_LOGIN_ACTION);

@@ -6,6 +6,7 @@ import { of } from 'rxjs';
 import { catchError, exhaustMap, map, tap } from 'rxjs/operators';
 
 import {
+  autoLogin,
   loginStart,
   loginSuccess,
   signupStart,
@@ -27,6 +28,7 @@ export class AuthEffects {
             this.store.dispatch(setLoadingSpinner({ status: false }));
             this.store.dispatch(setErrorMessage({ message: '' }));
             const user = this.authService.formatUser(data);
+            this.authService.setUserLocalStorage(user);
             return loginSuccess({ user });
           }),
           catchError((errorResponse) => {
@@ -55,6 +57,7 @@ export class AuthEffects {
             this.store.dispatch(setLoadingSpinner({ status: false }));
             this.store.dispatch(setErrorMessage({ message: '' }));
             const user = this.authService.formatUser(data);
+            this.authService.setUserLocalStorage(user);
             return signupSuccess({ user });
           }),
           catchError((errorResponse) => {
@@ -79,6 +82,19 @@ export class AuthEffects {
         ofType(...[loginSuccess, signupSuccess]),
         tap(() => {
           this.router.navigate(['/']).then();
+        }),
+      );
+    },
+    { dispatch: false },
+  );
+
+  autoLogin$ = createEffect(
+    () => {
+      return this.actions$.pipe(
+        ofType(autoLogin),
+        map(() => {
+          const user = this.authService.getUserFromLocalStorage();
+          console.log(user);
         }),
       );
     },

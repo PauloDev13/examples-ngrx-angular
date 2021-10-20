@@ -11,6 +11,8 @@ import { UserModel } from '~/interfaces/user.model';
   providedIn: 'root',
 })
 export class AuthService {
+  timeoutInterval: any;
+
   constructor(private http: HttpClient) {}
 
   login({ email, password }: TAuthProps): Observable<TAuthResponseData> {
@@ -28,9 +30,34 @@ export class AuthService {
     );
   }
 
+  setUserLocalStorage(user: UserModel) {
+    if (user) {
+      localStorage.setItem('user', JSON.stringify(user));
+    }
+    this.runTimeoutInterval(user);
+  }
+
   formatUser({ email, idToken, localId, expiresIn }: TAuthResponseData): UserModel {
     const expirationDate = new Date(new Date().getTime() + +expiresIn * 1000);
     return new UserModel(email, idToken, localId, expirationDate);
+  }
+
+  getUserFromLocalStorage() {
+    const userLocalStorage = localStorage.getItem('user');
+
+    if (userLocalStorage) {
+      const userData = JSON.parse(userLocalStorage);
+      const expirationDate = new Date(userData._expirationDate);
+      const user = new UserModel(
+        userData.email,
+        userData.token,
+        userData.localId,
+        expirationDate,
+      );
+      this.runTimeoutInterval(user);
+      return user;
+    }
+    return null;
   }
 
   getErrorMessage(message: string) {
@@ -47,5 +74,15 @@ export class AuthService {
       default:
         return 'Erro inesperado. Tente novamente';
     }
+  }
+
+  private runTimeoutInterval(user: UserModel) {
+    const todayDate = new Date().getTime();
+    const expirationDate = user.expirationDate.getTime();
+    const timeInterval = expirationDate - todayDate;
+
+    this.timeoutInterval = setTimeout(() => {
+      //TODO functionality or get the refresh token
+    }, timeInterval);
   }
 }
