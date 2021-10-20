@@ -4,25 +4,6 @@
     <hr />
     <form (ngSubmit)="onSubmit()" [formGroup]="signupForm">
       <div class="mb-3">
-        <label>Full Name</label>
-        <input class="form-control" formControlName="name" type="text" />
-
-        <div *ngIf="signupForm.get('name')?.touched && signupForm.get('name')?.invalid">
-          <p *ngIf="signupForm.get('name')?.errors?.required" style="color: red">
-            Name is required
-          </p>
-          <p
-            *ngIf="
-              signupForm.get('name')?.errors && !signupForm.get('name')?.errors?.required
-            "
-            style="color: red"
-          >
-            E-mail should be minimum 10 characters
-          </p>
-        </div>
-      </div>
-
-      <div class="mb-3">
         <label>E-mail</label>
         <input class="form-control" formControlName="email" type="email" />
 
@@ -69,7 +50,6 @@
       <div class="mb-3">
         <button
           [disabled]="signupForm.invalid"
-          [routerLink]="['/auth']"
           class="btn btn-primary btn-sm"
           type="submit"
         >

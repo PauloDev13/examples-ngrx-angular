@@ -2,7 +2,8 @@ import { UserModel } from '~/interfaces/user.model';
 
 export const LOGIN_START = '[auth page] Login start';
 export const LOGIN_SUCCESS = '[auth page] Login success';
-export const LOGIN_FAIL = '[auth page] Login fail';
+export const SIGNUP_START = '[auth page] Signup start';
+export const SIGNUP_SUCCESS = '[auth page] Signup success';
 
 export const AUTH_STATE_NAME = 'auth';
 

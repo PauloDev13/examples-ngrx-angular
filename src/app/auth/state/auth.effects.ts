@@ -40,6 +40,34 @@ export class AuthEffects {
     );
   });
 
+  // signup$ = createEffect(() => {
+  //   return this.actions$.pipe(
+  //     ofType(loginStart),
+  //     exhaustMap((action) => {
+  //       const { email, password } = action;
+  //       return this.authService.login({ email, password }).pipe(
+  //         map((data) => {
+  //           this.store.dispatch(setLoadingSpinner({ status: false }));
+  //           this.store.dispatch(setErrorMessage({ message: '' }));
+  //           const user = this.authService.formatUser(data);
+  //           return loginSuccess({ user });
+  //         }),
+  //         catchError((errorResponse) => {
+  //           this.store.dispatch(setLoadingSpinner({ status: false }));
+  //           const message = this.authService.getErrorMessage(
+  //             errorResponse.error.error.message,
+  //           );
+  //           return of(
+  //             setErrorMessage({
+  //               message,
+  //             }),
+  //           );
+  //         }),
+  //       );
+  //     }),
+  //   );
+  // });
+
   loginRedirect$ = createEffect(
     () => {
       return this.actions$.pipe(

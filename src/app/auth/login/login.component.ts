@@ -12,19 +12,24 @@ import { setLoadingSpinner } from '~/store/shared/shared.actions';
   styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent implements OnInit {
-  loginForm!: FormGroup;
+  loginForm: FormGroup;
   controls = {
     email: ['', [Validators.required, Validators.email]],
     password: ['', [Validators.required, Validators.minLength(6)]],
   };
 
-  constructor(private formBuilder: FormBuilder, private store: Store<TAppState>) {}
-
-  ngOnInit(): void {
+  constructor(private formBuilder: FormBuilder, private store: Store<TAppState>) {
     this.loginForm = this.formBuilder.group(this.controls);
   }
 
+  ngOnInit(): void {
+    // this.loginForm = this.formBuilder.group(this.controls);
+  }
+
   onLoginSubmit() {
+    if (this.loginForm.invalid) {
+      return;
+    }
     const { email, password } = this.loginForm.value;
     this.store.dispatch(setLoadingSpinner({ status: true }));
     this.store.dispatch(loginStart({ email, password }));

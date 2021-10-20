@@ -20,6 +20,13 @@ export class AuthService {
     );
   }
 
+  // signup({ email, password }: TAuthProps): Observable<TAuthResponseData> {
+  //   return this.http.post<TAuthResponseData>(
+  //     `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${environment.FIREBASE_API_KEY}`,
+  //     { email, password, returnSecureToken: true },
+  //   );
+  // }
+
   formatUser({ email, idToken, localId, expiresIn }: TAuthResponseData): UserModel {
     const expirationDate = new Date(new Date().getTime() + +expiresIn * 1000);
     return new UserModel(email, idToken, localId, expirationDate);
