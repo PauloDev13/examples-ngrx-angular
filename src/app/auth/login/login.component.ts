@@ -26,8 +26,7 @@ export class LoginComponent implements OnInit {
 
   onLoginSubmit() {
     const { email, password } = this.loginForm.value;
-    this.store.dispatch(setLoadingSpinner({ status: { showLoading: true } }));
+    this.store.dispatch(setLoadingSpinner({ status: true }));
     this.store.dispatch(loginStart({ email, password }));
-    this.loginForm.reset();
   }
 }

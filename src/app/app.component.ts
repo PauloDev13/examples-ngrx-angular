@@ -2,9 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
-import { TSharedState } from '~/interfaces/shared-state.interface';
 import { TAppState } from '~/store/app.state';
-import { selectShared } from '~/store/shared/shared.selectors';
+import { selectErrorMessage, selectShared } from '~/store/shared/shared.selectors';
 
 @Component({
   selector: 'app-root',
@@ -13,10 +12,12 @@ import { selectShared } from '~/store/shared/shared.selectors';
 })
 export class AppComponent implements OnInit {
   title = 'Example NgRx';
-  showLoading$: Observable<TSharedState>;
+  showLoading$: Observable<boolean>;
+  errorMessage$: Observable<string>;
 
   constructor(private store: Store<TAppState>) {
     this.showLoading$ = this.store.select(selectShared);
+    this.errorMessage$ = this.store.select(selectErrorMessage);
   }
 
   ngOnInit(): void {}

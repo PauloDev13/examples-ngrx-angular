@@ -24,4 +24,16 @@ export class AuthService {
     const expirationDate = new Date(new Date().getTime() + +expiresIn * 1000);
     return new UserModel(email, idToken, localId, expirationDate);
   }
+
+  getErrorMessage(message: string) {
+    switch (message) {
+      case 'EMAIL_NOT_FOUND':
+      case 'INVALID_PASSWORD':
+        return 'E-mail e/ou Senha inválido';
+      case 'USER_DISABLED':
+        return 'Usuário bloqueado';
+      default:
+        return 'Erro inesperado. Tente novamente';
+    }
+  }
 }

@@ -4,10 +4,10 @@ import { Store } from '@ngrx/store';
 import { of } from 'rxjs';
 import { catchError, exhaustMap, map } from 'rxjs/operators';
 
-import { loginFail, loginStart, loginSuccess } from '~/auth/state/auth.actions';
+import { loginStart, loginSuccess } from '~/auth/state/auth.actions';
 import { AuthService } from '~/services/auth.service';
 import { TAppState } from '~/store/app.state';
-import { setLoadingSpinner } from '~/store/shared/shared.actions';
+import { setErrorMessage, setLoadingSpinner } from '~/store/shared/shared.actions';
 
 @Injectable()
 export class AuthEffects {
@@ -18,11 +18,22 @@ export class AuthEffects {
         const { email, password } = action;
         return this.authService.login({ email, password }).pipe(
           map((data) => {
+            this.store.dispatch(setLoadingSpinner({ status: false }));
+            this.store.dispatch(setErrorMessage({ message: '' }));
             const user = this.authService.formatUser(data);
-            this.store.dispatch(setLoadingSpinner({ status: { showLoading: false } }));
             return loginSuccess({ user });
           }),
-          catchError(() => of(loginFail())),
+          catchError((errorResponse) => {
+            this.store.dispatch(setLoadingSpinner({ status: false }));
+            const message = this.authService.getErrorMessage(
+              errorResponse.error.error.message,
+            );
+            return of(
+              setErrorMessage({
+                message,
+              }),
+            );
+          }),
         );
       }),
     );

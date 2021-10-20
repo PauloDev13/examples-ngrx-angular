@@ -4,5 +4,12 @@ import { SHARED_STATE_NAME, TSharedState } from '~/interfaces/shared-state.inter
 
 const selectSharedState = createFeatureSelector<TSharedState>(SHARED_STATE_NAME);
 export const selectShared = createSelector(selectSharedState, (state: TSharedState) => {
-  return state;
+  return state.showLoading;
 });
+
+export const selectErrorMessage = createSelector(
+  selectSharedState,
+  (state: TSharedState) => {
+    return state.errorMessage;
+  },
+);
