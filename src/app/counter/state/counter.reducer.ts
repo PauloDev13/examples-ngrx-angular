@@ -1,7 +1,9 @@
 import { Action, createReducer, on } from '@ngrx/store';
 
+import { TCounterState } from '~/interfaces/counter.interface';
+
 import { customIncrement, decrement, increment, reset } from './counter.actions';
-import { TCounterState, initialState } from './counter.state';
+import { initialState } from './counter.state';
 
 const _counterReducer = createReducer(
   initialState,

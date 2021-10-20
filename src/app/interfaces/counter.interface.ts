@@ -1,6 +1,8 @@
-export interface ICounter {
+interface ICounter {
   counter: number;
 }
+
+export type TCounterState = ICounter;
 
 export const COUNTER_INCREMENT = '[counter] increment';
 export const COUNTER_DECREMENT = '[counter] decrement';

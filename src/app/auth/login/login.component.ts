@@ -4,6 +4,7 @@ import { Store } from '@ngrx/store';
 
 import { loginStart } from '~/auth/state/auth.actions';
 import { TAppState } from '~/store/app.state';
+import { setLoadingSpinner } from '~/store/shared/shared.actions';
 
 @Component({
   selector: 'app-login',
@@ -25,6 +26,7 @@ export class LoginComponent implements OnInit {
 
   onLoginSubmit() {
     const { email, password } = this.loginForm.value;
+    this.store.dispatch(setLoadingSpinner({ status: { showLoading: true } }));
     this.store.dispatch(loginStart({ email, password }));
     this.loginForm.reset();
   }

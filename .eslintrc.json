@@ -30,6 +30,8 @@
         "ngrx/use-selector-in-select": 0,
         "ngrx/avoid-mapping-selectors": 0,
         "ngrx/no-store-subscription": 0,
+        "ngrx/no-dispatch-in-effects": 0,
+        "ngrx/avoid-dispatching-multiple-actions-sequentially": 0,
         "comma-dangle": [
           "off",
           "always-multiline"

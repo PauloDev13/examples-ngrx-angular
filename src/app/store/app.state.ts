@@ -1,14 +1,10 @@
-import { counterReducer } from '~/counter/state/counter.reducer';
-import { ICounter } from '~/interfaces/counter.interface';
-import { IPost } from '~/interfaces/post.interface';
-import { postsReducer } from '~/post/state/posts.reducer';
+import { SHARED_STATE_NAME, TSharedState } from '~/interfaces/shared-state.interface';
+import { sharedReducer } from '~/store/shared/shared.reducer';
 
 export type TAppState = {
-  counter: ICounter;
-  posts: IPost;
+  [SHARED_STATE_NAME]: TSharedState;
 };
 
 export const appReducer = {
-  counter: counterReducer,
-  posts: postsReducer,
+  [SHARED_STATE_NAME]: sharedReducer,
 };

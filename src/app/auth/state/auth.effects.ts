@@ -1,10 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Actions, ofType, createEffect } from '@ngrx/effects';
+import { Store } from '@ngrx/store';
 import { of } from 'rxjs';
 import { catchError, exhaustMap, map } from 'rxjs/operators';
 
 import { loginFail, loginStart, loginSuccess } from '~/auth/state/auth.actions';
 import { AuthService } from '~/services/auth.service';
+import { TAppState } from '~/store/app.state';
+import { setLoadingSpinner } from '~/store/shared/shared.actions';
 
 @Injectable()
 export class AuthEffects {
@@ -15,8 +18,8 @@ export class AuthEffects {
         const { email, password } = action;
         return this.authService.login({ email, password }).pipe(
           map((data) => {
-            console.log('Expireded ' + data.expiresIn);
             const user = this.authService.formatUser(data);
+            this.store.dispatch(setLoadingSpinner({ status: { showLoading: false } }));
             return loginSuccess({ user });
           }),
           catchError(() => of(loginFail())),
@@ -25,5 +28,9 @@ export class AuthEffects {
     );
   });
 
-  constructor(private actions$: Actions, private authService: AuthService) {}
+  constructor(
+    private actions$: Actions,
+    private authService: AuthService,
+    private store: Store<TAppState>,
+  ) {}
 }

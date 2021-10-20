@@ -1,8 +1,6 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 
-import { COUNTER_STATE_NAME } from '~/interfaces/counter.interface';
-
-import { TCounterState } from './counter.state';
+import { COUNTER_STATE_NAME, TCounterState } from '~/interfaces/counter.interface';
 
 const selectCounterState = createFeatureSelector<TCounterState>(COUNTER_STATE_NAME);
 export const selectCounter = createSelector(
