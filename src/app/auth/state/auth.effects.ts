@@ -82,6 +82,7 @@ export class AuthEffects {
       return this.actions$.pipe(
         ofType(...[loginSuccess, signupSuccess]),
         tap((action) => {
+          this.store.dispatch(setErrorMessage({ message: '' }));
           if (action.redirect) {
             this.router.navigate(['/']).then();
           }

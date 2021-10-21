@@ -3,7 +3,7 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
 import { IPost } from '~/interfaces/post.interface';
-import { deletePost } from '~/post/state/posts.actions';
+import { deletePost, loadPosts } from '~/post/state/posts.actions';
 import { selectPosts } from '~/post/state/posts.selector';
 import { TAppState } from '~/store/app.state';
 
@@ -13,12 +13,14 @@ import { TAppState } from '~/store/app.state';
   styleUrls: ['./post-list.component.scss'],
 })
 export class PostListComponent implements OnInit {
-  posts$!: Observable<IPost[]>;
+  posts$: Observable<IPost[]>;
 
-  constructor(private store: Store<TAppState>) {}
+  constructor(private store: Store<TAppState>) {
+    this.posts$ = store.select(selectPosts);
+  }
 
   ngOnInit(): void {
-    this.posts$ = this.store.select(selectPosts);
+    this.store.dispatch(loadPosts());
   }
 
   onDeletePost(post: IPost) {

@@ -9,11 +9,11 @@ export const selectPosts = createSelector(selectPostsState, (state: TPostsState)
   return state.posts;
 });
 
-export const selectPostById = createSelector(
-  selectPostsState,
-  (state: TPostsState, props: { id: string }) =>
-    state.posts.find((post) => post.id === props.id),
-);
+// export const selectPostById = createSelector(
+//   selectPostsState,
+//   (state: TPostsState, props: { id: string }) =>
+//     state.posts.find((post) => post.id === props.id),
+// );
 
 export const selectPostByIdProps = (props: { id: string }) =>
   createSelector(selectPostsState, (state: TPostsState) =>
