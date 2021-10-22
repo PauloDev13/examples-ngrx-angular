@@ -4,7 +4,7 @@ import { Store } from '@ngrx/store';
 
 import { loginStart } from '~/auth/state/auth.actions';
 import { TAppState } from '~/store/app.state';
-import { setLoadingSpinner } from '~/store/shared/shared.actions';
+import { setErrorMessage, setLoadingSpinner } from '~/store/shared/shared.actions';
 
 @Component({
   selector: 'app-login',
@@ -23,6 +23,7 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.store.dispatch(setErrorMessage({ message: '' }));
     // this.loginForm = this.formBuilder.group(this.controls);
   }
 

@@ -82,6 +82,8 @@ export class AuthService {
         return 'Usuário já cadastrado para esse e-mail';
       case 'TOO_MANY_ATTEMPTS_TRY_LATER':
         return 'Todos os acessos foram bloqueados. Tente mais tarde';
+      case 'Permission denied':
+        return 'Usuário deve informar credenciais de acesso';
       default:
         return 'Erro inesperado. Tente novamente';
     }

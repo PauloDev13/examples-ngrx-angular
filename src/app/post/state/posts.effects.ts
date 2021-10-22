@@ -34,6 +34,14 @@ export class PostsEffects {
             }
             return loadSuccessPosts({ posts });
           }),
+          catchError((errResponse) => {
+            const message = this.authService.getErrorMessage(errResponse.error.error);
+            return of(
+              setErrorMessage({
+                message,
+              }),
+            );
+          }),
         );
       }),
     );
