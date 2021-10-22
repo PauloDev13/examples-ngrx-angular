@@ -5,7 +5,7 @@
     <div>
       <a [routerLink]="['/posts/add']" class="btn btn-primary btn-sm">New Post</a>
     </div>
-    <table *ngIf="posts$ | async as postsData" class="table table-striped">
+    <table *ngIf="isEmptyTable$ | async; else emptyPosts" class="table table-striped">
       <thead>
         <tr>
           <th>Id</th>
@@ -15,7 +15,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let post of postsData">
+        <tr *ngFor="let post of posts$ | async">
           <td>{{ post.id }}</td>
           <td>{{ post.title }}</td>
           <td>{{ post.description }}</td>
@@ -27,6 +27,9 @@
         </tr>
       </tbody>
     </table>
+    <ng-template #emptyPosts>
+      <span> There are no registered posts </span>
+    </ng-template>
   </div>
   <div class="col-md-4">
     <router-outlet></router-outlet>

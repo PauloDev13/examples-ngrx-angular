@@ -2,7 +2,7 @@
   <div class="col-md-12">
     <h3>Add Post</h3>
     <hr />
-    <form [formGroup]="addForm">
+    <form (ngSubmit)="onAddPost()" [formGroup]="addForm">
       <div class="mb-3">
         <label>Title</label>
         <input class="form-control" formControlName="title" type="text" />
@@ -29,11 +29,7 @@
       </div>
 
       <div class="mb-3">
-        <button
-          (click)="onAddPost()"
-          [disabled]="addForm.invalid"
-          class="btn btn-primary btn-sm"
-        >
+        <button [disabled]="addForm.invalid" class="btn btn-primary btn-sm" type="submit">
           Save
         </button>
         &nbsp;

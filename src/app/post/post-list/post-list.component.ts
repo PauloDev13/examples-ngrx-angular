@@ -6,6 +6,7 @@ import { IPost } from '~/interfaces/post.interface';
 import { deletePost, loadPosts } from '~/post/state/posts.actions';
 import { selectPosts } from '~/post/state/posts.selector';
 import { TAppState } from '~/store/app.state';
+import { selectEmptyTable } from '~/store/shared/shared.selectors';
 
 @Component({
   selector: 'app-post-list',
@@ -14,9 +15,11 @@ import { TAppState } from '~/store/app.state';
 })
 export class PostListComponent implements OnInit {
   posts$: Observable<IPost[]>;
+  isEmptyTable$: Observable<boolean>;
 
   constructor(private store: Store<TAppState>) {
-    this.posts$ = store.select(selectPosts);
+    this.posts$ = this.store.select(selectPosts);
+    this.isEmptyTable$ = this.store.select(selectEmptyTable);
   }
 
   ngOnInit(): void {
@@ -25,7 +28,7 @@ export class PostListComponent implements OnInit {
 
   onDeletePost(post: IPost) {
     if (confirm(`Are you sure want to delete Post: ${post.title.toUpperCase()}?`)) {
-      this.store.dispatch(deletePost({ post }));
+      this.store.dispatch(deletePost({ id: post.id }));
     }
   }
 }

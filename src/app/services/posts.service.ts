@@ -33,4 +33,19 @@ export class PostsService {
       post,
     );
   }
+
+  updatePost(post: IPost): Observable<IPost> {
+    const { id, title, description } = post;
+    const postData = { [id as string]: { title, description } };
+    return this.http.patch<IPost>(
+      `https://ng-fitness-tracker-b6920-default-rtdb.firebaseio.com/posts.json`,
+      postData,
+    );
+  }
+
+  deletePost(id: string | undefined): Observable<void> {
+    return this.http.delete<void>(
+      `https://ng-fitness-tracker-b6920-default-rtdb.firebaseio.com/posts/${id}.json`,
+    );
+  }
 }

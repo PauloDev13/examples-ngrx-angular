@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
@@ -16,7 +17,11 @@ export class AddPostComponent implements OnInit {
   addForm!: FormGroup;
   post$!: Observable<IPost>;
 
-  constructor(private formBuild: FormBuilder, private store: Store<TAppState>) {}
+  constructor(
+    private formBuild: FormBuilder,
+    private store: Store<TAppState>,
+    private router: Router,
+  ) {}
 
   ngOnInit(): void {
     this.addForm = this.createAddForm();
@@ -37,8 +42,7 @@ export class AddPostComponent implements OnInit {
       ...this.addForm.value,
     };
     this.store.dispatch(addPost({ post }));
-
-    this.clearAddForm();
+    this.router.navigate(['/posts']).then();
   }
 
   clearAddForm() {

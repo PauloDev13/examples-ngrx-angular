@@ -1,7 +1,11 @@
 import { Action, createReducer, on } from '@ngrx/store';
 
 import { TSharedState } from '~/interfaces/shared-state.interface';
-import { setErrorMessage, setLoadingSpinner } from '~/store/shared/shared.actions';
+import {
+  setEmptyTable,
+  setErrorMessage,
+  setLoadingSpinner,
+} from '~/store/shared/shared.actions';
 import { initialState } from '~/store/shared/shared.state';
 
 const _sharedReducer = createReducer(
@@ -10,6 +14,12 @@ const _sharedReducer = createReducer(
     return {
       ...state,
       showLoading: action.status,
+    };
+  }),
+  on(setEmptyTable, (state, action): TSharedState => {
+    return {
+      ...state,
+      isEmpty: action.status,
     };
   }),
 
