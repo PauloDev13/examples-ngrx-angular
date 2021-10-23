@@ -9,6 +9,7 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { AuthEffects } from '~/auth/state/auth.effects';
 import { AuthTokenInterceptor } from '~/interceptors/auth-token.interceptor';
 import { appReducer } from '~/store/app.state';
+import { CustomSerializer } from '~/store/router/custom-serializer';
 
 import { environment } from '../environments/environment.prod';
 import { AppRoutingModule } from './app-routing.module';
@@ -29,7 +30,9 @@ import { LoadingSpinnerComponent } from './shared/components/loading-spinner/loa
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    StoreRouterConnectingModule.forRoot(),
+    StoreRouterConnectingModule.forRoot({
+      serializer: CustomSerializer,
+    }),
   ],
   providers: [
     {
