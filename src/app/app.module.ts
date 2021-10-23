@@ -2,6 +2,7 @@ import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { EffectsModule } from '@ngrx/effects';
+import { StoreRouterConnectingModule } from '@ngrx/router-store';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
@@ -28,6 +29,7 @@ import { LoadingSpinnerComponent } from './shared/components/loading-spinner/loa
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
+    StoreRouterConnectingModule.forRoot(),
   ],
   providers: [
     {
