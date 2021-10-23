@@ -7,12 +7,13 @@ import { catchError, exhaustMap, map, mergeMap, tap } from 'rxjs/operators';
 
 import {
   autoLogin,
+  autoLogout,
   loginStart,
   loginSuccess,
-  logoutAction,
   signupStart,
   signupSuccess,
 } from '~/auth/state/auth.actions';
+import { UserModel } from '~/interfaces/user.model';
 import { AuthService } from '~/services/auth.service';
 import { TAppState } from '~/store/app.state';
 import { setErrorMessage, setLoadingSpinner } from '~/store/shared/shared.actions';
@@ -77,7 +78,7 @@ export class AuthEffects {
     );
   });
 
-  loginAnSignupRedirect$ = createEffect(
+  loginRedirect$ = createEffect(
     () => {
       return this.actions$.pipe(
         ofType(...[loginSuccess, signupSuccess]),
@@ -96,16 +97,16 @@ export class AuthEffects {
     return this.actions$.pipe(
       ofType(autoLogin),
       mergeMap(() => {
-        const user = this.authService.getUserFromLocalStorage();
+        const user = this.authService.getUserFromLocalStorage() as UserModel;
         return of(loginSuccess({ user, redirect: false }));
       }),
     );
   });
 
-  logoutAction$ = createEffect(
+  autoLogout$ = createEffect(
     () => {
       return this.actions$.pipe(
-        ofType(logoutAction),
+        ofType(autoLogout),
         map(() => {
           this.authService.logout();
           this.router.navigate(['/auth']).then();

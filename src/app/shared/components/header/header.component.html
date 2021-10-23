@@ -24,7 +24,7 @@
         </li>
 
         <li *ngIf="isAuthenticated$ | async" class="nav-item">
-          <a (click)="onLogout($event)" class="nav-link" href="#">Logout</a>
+          <a (click)="onLogout($event)" class="nav-link" type="button">Logout</a>
         </li>
       </ul>
     </div>

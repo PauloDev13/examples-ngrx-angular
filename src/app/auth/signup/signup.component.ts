@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 
 import { signupStart } from '~/auth/state/auth.actions';
-import { setErrorMessage, setLoadingSpinner } from '~/store/shared/shared.actions';
+import { setLoadingSpinner } from '~/store/shared/shared.actions';
 
 @Component({
   selector: 'app-signup',
@@ -23,7 +23,6 @@ export class SignupComponent implements OnInit {
 
   ngOnInit(): void {
     // this.signupForm = this.formBuilder.group(this.controls);
-    this.store.dispatch(setErrorMessage({ message: '' }));
   }
 
   onSubmit() {

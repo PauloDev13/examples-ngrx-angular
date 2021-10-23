@@ -16,7 +16,7 @@ export const loginStart = createAction(
 );
 export const loginSuccess = createAction(
   LOGIN_SUCCESS,
-  props<{ user: UserModel | null; redirect: boolean }>(),
+  props<{ user: UserModel; redirect: boolean }>(),
 );
 
 export const signupStart = createAction(
@@ -30,4 +30,4 @@ export const signupSuccess = createAction(
 );
 
 export const autoLogin = createAction(AUTO_LOGIN_ACTION);
-export const logoutAction = createAction(LOGOUT_ACTION);
+export const autoLogout = createAction(LOGOUT_ACTION);

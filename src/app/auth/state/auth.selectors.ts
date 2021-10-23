@@ -6,7 +6,9 @@ const selectAuthState = createFeatureSelector<TAuthState>(AUTH_STATE_NAME);
 
 export const selectIsAuthenticated = createSelector(
   selectAuthState,
-  (state: TAuthState) => !!state.user,
+  (state: TAuthState) => {
+    return !!state.user;
+  },
 );
 
 export const selectGetToken = createSelector(selectAuthState, (state: TAuthState) => {

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { of } from 'rxjs';
-import { catchError, map, mergeMap } from 'rxjs/operators';
+import { catchError, exhaustMap, map } from 'rxjs/operators';
 
 import {
   addPost,
@@ -24,7 +24,7 @@ export class PostsEffects {
   loadPosts$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(loadPosts),
-      mergeMap(() => {
+      exhaustMap(() => {
         return this.postsService.getPosts().pipe(
           map((posts) => {
             if (posts.length === 0) {
@@ -50,7 +50,7 @@ export class PostsEffects {
   addPosts$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(addPost),
-      mergeMap((action) => {
+      exhaustMap((action) => {
         return this.postsService.addPost(action.post).pipe(
           map((data) => {
             const post = { ...action.post, id: data.name };
@@ -74,7 +74,7 @@ export class PostsEffects {
   updatePosts$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(updatePost),
-      mergeMap((action) => {
+      exhaustMap((action) => {
         return this.postsService.updatePost(action.post).pipe(
           map(() => {
             return updateSuccessPost({ post: action.post });
@@ -97,7 +97,7 @@ export class PostsEffects {
   deletePost$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(deletePost),
-      mergeMap((action) => {
+      exhaustMap((action) => {
         return this.postsService.deletePost(action.id).pipe(
           map(() => {
             return deleteSuccessPost({ id: action.id });

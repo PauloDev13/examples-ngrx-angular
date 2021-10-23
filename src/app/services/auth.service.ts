@@ -4,7 +4,7 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
 import { environment } from '~/../environments/environment.prod';
-import { autoLogin } from '~/auth/state/auth.actions';
+import { autoLogout } from '~/auth/state/auth.actions';
 import { TAuthResponseData } from '~/interfaces/auth-response-data.interface';
 import { TAuthProps } from '~/interfaces/auth.interface';
 import { UserModel } from '~/interfaces/user.model';
@@ -34,7 +34,6 @@ export class AuthService {
   }
 
   signup({ email, password }: TAuthProps): Observable<TAuthResponseData> {
-    console.log('Signup ' + email + ' - ' + password);
     return this.http.post<TAuthResponseData>(
       `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${environment.FIREBASE_API_KEY}`,
       { email, password, returnSecureToken: true },
@@ -82,8 +81,6 @@ export class AuthService {
         return 'Usuário já cadastrado para esse e-mail';
       case 'TOO_MANY_ATTEMPTS_TRY_LATER':
         return 'Todos os acessos foram bloqueados. Tente mais tarde';
-      case 'Permission denied':
-        return 'Usuário deve informar credenciais de acesso';
       default:
         return 'Erro inesperado. Tente novamente';
     }
@@ -93,9 +90,10 @@ export class AuthService {
     const todayDate = new Date().getTime();
     const expirationDate = user.expirationDate.getTime();
     const timeInterval = expirationDate - todayDate;
+    console.log('timeInterval ' + timeInterval);
 
     this.timeoutInterval = setTimeout(() => {
-      this.store.dispatch(autoLogin());
+      this.store.dispatch(autoLogout());
     }, timeInterval);
   }
 }
