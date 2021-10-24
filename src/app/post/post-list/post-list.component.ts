@@ -2,10 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
-import { IPost } from '~/interfaces/post.interface';
+import { TPost } from '~/interfaces/post.interface';
 import { deletePost, loadPosts } from '~/post/state/posts.actions';
 import { selectPosts } from '~/post/state/posts.selector';
 import { TAppState } from '~/store/app.state';
+import { setLoadingSpinner } from '~/store/shared/shared.actions';
 import { selectEmptyTable } from '~/store/shared/shared.selectors';
 
 @Component({
@@ -14,7 +15,7 @@ import { selectEmptyTable } from '~/store/shared/shared.selectors';
   styleUrls: ['./post-list.component.scss'],
 })
 export class PostListComponent implements OnInit {
-  posts$: Observable<IPost[]>;
+  posts$: Observable<TPost[]>;
   isEmptyTable$: Observable<boolean>;
 
   constructor(private store: Store<TAppState>) {
@@ -26,8 +27,9 @@ export class PostListComponent implements OnInit {
     this.store.dispatch(loadPosts());
   }
 
-  onDeletePost(post: IPost) {
+  onDeletePost(post: TPost) {
     if (confirm(`Are you sure want to delete Post: ${post.title.toUpperCase()}?`)) {
+      this.store.dispatch(setLoadingSpinner({ status: true }));
       this.store.dispatch(deletePost({ id: post.id }));
     }
   }

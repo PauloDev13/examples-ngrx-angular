@@ -17,7 +17,6 @@ export class HeaderComponent implements OnInit {
   constructor(private store: Store<TAppState>) {}
 
   ngOnInit(): void {
-    console.log('Header');
     this.isAuthenticated$ = this.store.select(selectIsAuthenticated);
   }
 

@@ -4,6 +4,7 @@ import { Store } from '@ngrx/store';
 import { of } from 'rxjs';
 import { catchError, exhaustMap, map } from 'rxjs/operators';
 
+import { TPosts } from '~/interfaces/post.interface';
 import {
   addPost,
   addSuccessPost,
@@ -17,7 +18,11 @@ import {
 import { AuthService } from '~/services/auth.service';
 import { PostsService } from '~/services/posts.service';
 import { TAppState } from '~/store/app.state';
-import { setEmptyTable, setErrorMessage } from '~/store/shared/shared.actions';
+import {
+  setEmptyTable,
+  setErrorMessage,
+  setLoadingSpinner,
+} from '~/store/shared/shared.actions';
 
 @Injectable()
 export class PostsEffects {
@@ -26,7 +31,7 @@ export class PostsEffects {
       ofType(loadPosts),
       exhaustMap(() => {
         return this.postsService.getPosts().pipe(
-          map((posts) => {
+          map((posts: TPosts) => {
             if (posts.length === 0) {
               this.store.dispatch(setEmptyTable({ status: false }));
             } else {
@@ -34,14 +39,14 @@ export class PostsEffects {
             }
             return loadSuccessPosts({ posts });
           }),
-          catchError((errResponse) => {
-            const message = this.authService.getErrorMessage(errResponse.error.error);
-            return of(
-              setErrorMessage({
-                message,
-              }),
-            );
-          }),
+          // catchError((errResponse) => {
+          //   const message = this.authService.getErrorMessage(errResponse.error.error);
+          //   return of(
+          //     setErrorMessage({
+          //       message,
+          //     }),
+          //   );
+          // }),
         );
       }),
     );
@@ -54,12 +59,16 @@ export class PostsEffects {
         return this.postsService.addPost(action.post).pipe(
           map((data) => {
             const post = { ...action.post, id: data.name };
+            this.store.dispatch(setLoadingSpinner({ status: false }));
+            this.store.dispatch(setEmptyTable({ status: true }));
             return addSuccessPost({ post });
           }),
           catchError((errResponse) => {
             const message = this.authService.getErrorMessage(
               errResponse.error.error.message,
             );
+            this.store.dispatch(setLoadingSpinner({ status: false }));
+            this.store.dispatch(setEmptyTable({ status: false }));
             return of(
               setErrorMessage({
                 message,
@@ -100,9 +109,12 @@ export class PostsEffects {
       exhaustMap((action) => {
         return this.postsService.deletePost(action.id).pipe(
           map(() => {
+            this.store.dispatch(setLoadingSpinner({ status: false }));
+            this.store.dispatch(setEmptyTable({ status: false }));
             return deleteSuccessPost({ id: action.id });
           }),
           catchError((errResponse) => {
+            this.store.dispatch(setLoadingSpinner({ status: false }));
             this.store.dispatch(setEmptyTable({ status: false }));
             const message = this.authService.getErrorMessage(
               errResponse.error.error.message,

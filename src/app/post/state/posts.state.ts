@@ -1,7 +1,7 @@
-import { IPost } from '~/interfaces/post.interface';
+import { TPost } from '~/interfaces/post.interface';
 
 export type TPostsState = {
-  posts: IPost[];
+  posts: TPost[];
 };
 
 export const initialState: TPostsState = {

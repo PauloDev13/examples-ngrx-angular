@@ -4,7 +4,7 @@ import {
   AUTO_LOGIN_ACTION,
   LOGIN_START,
   LOGIN_SUCCESS,
-  LOGOUT_ACTION,
+  AUTO_LOGOUT_ACTION,
   SIGNUP_START,
   SIGNUP_SUCCESS,
 } from '~/interfaces/auth.interface';
@@ -30,4 +30,4 @@ export const signupSuccess = createAction(
 );
 
 export const autoLogin = createAction(AUTO_LOGIN_ACTION);
-export const autoLogout = createAction(LOGOUT_ACTION);
+export const autoLogout = createAction(AUTO_LOGOUT_ACTION);

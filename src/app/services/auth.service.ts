@@ -41,6 +41,7 @@ export class AuthService {
   }
 
   setUserLocalStorage(user: UserModel) {
+    console.log('setUserLocalStorage ' + JSON.stringify(user));
     if (user) {
       localStorage.setItem('user', JSON.stringify(user));
     }
@@ -53,17 +54,19 @@ export class AuthService {
   }
 
   getUserFromLocalStorage() {
-    const userLocalStorage = localStorage.getItem('user');
+    const userLocalStorage = localStorage.getItem('user') ?? '';
 
     if (userLocalStorage) {
       const userData = JSON.parse(userLocalStorage);
       const expirationDate = new Date(userData._expirationDate);
+
       const user = new UserModel(
-        userData.email,
-        userData.token,
-        userData.localId,
+        userData._email,
+        userData._token,
+        userData._localId,
         expirationDate,
       );
+
       this.runTimeoutInterval(user);
       return user;
     }
@@ -90,7 +93,6 @@ export class AuthService {
     const todayDate = new Date().getTime();
     const expirationDate = user.expirationDate.getTime();
     const timeInterval = expirationDate - todayDate;
-    console.log('timeInterval ' + timeInterval);
 
     this.timeoutInterval = setTimeout(() => {
       this.store.dispatch(autoLogout());

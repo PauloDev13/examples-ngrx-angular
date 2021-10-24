@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { IPost } from '~/interfaces/post.interface';
+import { TPost } from '~/interfaces/post.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -11,14 +11,14 @@ import { IPost } from '~/interfaces/post.interface';
 export class PostsService {
   constructor(private http: HttpClient) {}
 
-  getPosts(): Observable<IPost[]> {
+  getPosts(): Observable<TPost[]> {
     return this.http
-      .get<IPost[]>(
+      .get<TPost[]>(
         `https://ng-fitness-tracker-b6920-default-rtdb.firebaseio.com/posts.json`,
       )
       .pipe(
         map((data) => {
-          const posts: IPost[] = [];
+          const posts: TPost[] = [];
           for (let key in data) {
             posts.push({ ...data[key], id: key });
           }
@@ -27,17 +27,17 @@ export class PostsService {
       );
   }
 
-  addPost(post: IPost): Observable<{ name: string }> {
+  addPost(post: TPost): Observable<{ name: string }> {
     return this.http.post<{ name: string }>(
       `https://ng-fitness-tracker-b6920-default-rtdb.firebaseio.com/posts.json`,
       post,
     );
   }
 
-  updatePost(post: IPost): Observable<IPost> {
+  updatePost(post: TPost): Observable<TPost> {
     const { id, title, description } = post;
     const postData = { [id as string]: { title, description } };
-    return this.http.patch<IPost>(
+    return this.http.patch<TPost>(
       `https://ng-fitness-tracker-b6920-default-rtdb.firebaseio.com/posts.json`,
       postData,
     );

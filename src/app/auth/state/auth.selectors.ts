@@ -12,5 +12,5 @@ export const selectIsAuthenticated = createSelector(
 );
 
 export const selectGetToken = createSelector(selectAuthState, (state: TAuthState) => {
-  return state.user ? state.user.token : null;
+  return state.user?.token ?? '';
 });

@@ -13,6 +13,7 @@ import {
   signupStart,
   signupSuccess,
 } from '~/auth/state/auth.actions';
+import { TAuthResponseData } from '~/interfaces/auth-response-data.interface';
 import { UserModel } from '~/interfaces/user.model';
 import { AuthService } from '~/services/auth.service';
 import { TAppState } from '~/store/app.state';
@@ -26,11 +27,13 @@ export class AuthEffects {
       exhaustMap((action) => {
         const { email, password } = action;
         return this.authService.login({ email, password }).pipe(
-          map((data) => {
+          map((data: TAuthResponseData) => {
             this.store.dispatch(setLoadingSpinner({ status: false }));
             this.store.dispatch(setErrorMessage({ message: '' }));
+
             const user = this.authService.formatUser(data);
             this.authService.setUserLocalStorage(user);
+
             return loginSuccess({ user, redirect: true });
           }),
           catchError((errorResponse) => {
@@ -58,8 +61,10 @@ export class AuthEffects {
           map((data) => {
             this.store.dispatch(setLoadingSpinner({ status: false }));
             this.store.dispatch(setErrorMessage({ message: '' }));
+
             const user = this.authService.formatUser(data);
             this.authService.setUserLocalStorage(user);
+
             return signupSuccess({ user, redirect: true });
           }),
           catchError((errorResponse) => {
@@ -97,7 +102,7 @@ export class AuthEffects {
     return this.actions$.pipe(
       ofType(autoLogin),
       mergeMap(() => {
-        const user = this.authService.getUserFromLocalStorage() as UserModel;
+        const user: UserModel = this.authService.getUserFromLocalStorage()!;
         return of(loginSuccess({ user, redirect: false }));
       }),
     );

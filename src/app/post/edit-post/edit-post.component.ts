@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 
-import { IPost } from '~/interfaces/post.interface';
+import { TPost } from '~/interfaces/post.interface';
 import { updatePost } from '~/post/state/posts.actions';
 import { selectPostByIdProps } from '~/post/state/posts.selector';
 import { TAppState } from '~/store/app.state';
@@ -16,7 +16,7 @@ import { TAppState } from '~/store/app.state';
 })
 export class EditPostComponent implements OnInit, OnDestroy {
   editForm!: FormGroup;
-  post!: IPost;
+  post!: TPost;
   postSubscription!: Subscription;
 
   constructor(
@@ -27,29 +27,37 @@ export class EditPostComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.activeRoute.params.subscribe((params) => {
-      const id = params.id;
-      this.postSubscription = this.store
-        .select(selectPostByIdProps({ id }))
-        .subscribe((data) => {
-          if (data) {
-            this.post = data;
-            this.createForm();
-          }
-        });
-    });
+    this.createForm();
+    this.postSubscription = this.store
+      .select(selectPostByIdProps)
+      .subscribe((post: TPost | undefined) => {
+        if (post) {
+          this.post = post;
+          const { title, description } = this.post;
+          this.editForm.patchValue({
+            title,
+            description,
+          });
+        }
+      });
+
+    // this.activeRoute.params.subscribe((params) => {
+    //   const id = params.id;
+    //   this.postSubscription = this.store
+    //     .select(selectPostByIdProps({ id }))
+    //     .subscribe((data) => {
+    //       if (data) {
+    //         this.post = data;
+    //         this.createForm();
+    //       }
+    //     });
+    // });
   }
 
   createForm() {
     this.editForm = this.formBuilder.group({
-      title: new FormControl(this.post.title, [
-        Validators.required,
-        Validators.minLength(6),
-      ]),
-      description: new FormControl(this.post.description, [
-        Validators.required,
-        Validators.minLength(10),
-      ]),
+      title: new FormControl('', [Validators.required, Validators.minLength(6)]),
+      description: new FormControl('', [Validators.required, Validators.minLength(10)]),
     });
   }
 
@@ -58,7 +66,7 @@ export class EditPostComponent implements OnInit, OnDestroy {
       return;
     }
 
-    const post: IPost = {
+    const post: TPost = {
       ...this.editForm.value,
       id: this.post.id,
     };

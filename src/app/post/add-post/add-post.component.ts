@@ -2,11 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
 
-import { IPost } from '~/interfaces/post.interface';
+import { TPost } from '~/interfaces/post.interface';
 import { addPost } from '~/post/state/posts.actions';
 import { TAppState } from '~/store/app.state';
+import { setLoadingSpinner } from '~/store/shared/shared.actions';
 
 @Component({
   selector: 'app-add-post',
@@ -14,18 +14,17 @@ import { TAppState } from '~/store/app.state';
   styleUrls: ['./add-post.component.scss'],
 })
 export class AddPostComponent implements OnInit {
-  addForm!: FormGroup;
-  post$!: Observable<IPost>;
+  addForm: FormGroup;
 
   constructor(
     private formBuild: FormBuilder,
     private store: Store<TAppState>,
     private router: Router,
-  ) {}
-
-  ngOnInit(): void {
+  ) {
     this.addForm = this.createAddForm();
   }
+
+  ngOnInit(): void {}
 
   createAddForm() {
     return this.formBuild.group({
@@ -38,16 +37,17 @@ export class AddPostComponent implements OnInit {
     if (this.addForm.invalid) {
       return;
     }
-    const post: IPost = {
+    const post: TPost = {
       ...this.addForm.value,
     };
+    this.store.dispatch(setLoadingSpinner({ status: true }));
     this.store.dispatch(addPost({ post }));
     this.router.navigate(['/posts']).then();
   }
 
-  clearAddForm() {
-    this.addForm.reset();
-  }
+  // clearAddForm() {
+  //   this.addForm.reset();
+  // }
 
   showDescriptionErrors(): string {
     const descriptionForm = this.addForm.controls.description;

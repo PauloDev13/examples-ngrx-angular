@@ -12,8 +12,11 @@ export const UPDATE_SUCCESS_POST = '[post page] Update Success Post Action';
 export const DELETE_POST_ACTION = '[post page] Delete Post Action';
 export const DELETE_SUCCESS_POST = '[post page] Delete Success Post Action';
 
-export interface IPost {
+interface IPost {
   id?: string;
   title: string;
   description: string;
 }
+
+export type TPost = IPost;
+export type TPosts = IPost[];
