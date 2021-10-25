@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { Update } from '@ngrx/entity';
 import { ROUTER_NAVIGATION, RouterNavigatedAction } from '@ngrx/router-store';
 import { Store } from '@ngrx/store';
 import { of } from 'rxjs';
 import { catchError, exhaustMap, filter, map, switchMap } from 'rxjs/operators';
 
-import { TPosts } from '~/interfaces/post.interface';
+import { TPost, TPosts } from '~/interfaces/post.interface';
 import {
   addPost,
   addSuccessPost,
@@ -110,7 +111,13 @@ export class PostsEffects {
         return this.postsService.updatePost(action.post).pipe(
           map(() => {
             this.store.dispatch(setLoadingSpinner({ status: false }));
-            return updateSuccessPost({ post: action.post });
+            const updatedPost: Update<TPost> = {
+              id: action.post.id as string,
+              changes: {
+                ...action.post,
+              },
+            };
+            return updateSuccessPost({ post: updatedPost });
           }),
           catchError((errResponse) => {
             this.store.dispatch(setLoadingSpinner({ status: false }));
