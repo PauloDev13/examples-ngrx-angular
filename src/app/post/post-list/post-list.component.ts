@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 
 import { TPost } from '~/interfaces/post.interface';
 import { deletePost, loadPosts } from '~/post/state/posts.actions';
-import { selectPosts } from '~/post/state/posts.selector';
+import { selectGetCounter, selectPosts } from '~/post/state/posts.selector';
 import { TAppState } from '~/store/app.state';
 import { setLoadingSpinner } from '~/store/shared/shared.actions';
 import { selectEmptyTable } from '~/store/shared/shared.selectors';
@@ -17,10 +17,12 @@ import { selectEmptyTable } from '~/store/shared/shared.selectors';
 export class PostListComponent implements OnInit {
   posts$: Observable<TPost[]>;
   isEmptyTable$: Observable<boolean>;
+  counter$: Observable<number>;
 
   constructor(private store: Store<TAppState>) {
     this.posts$ = this.store.select(selectPosts);
     this.isEmptyTable$ = this.store.select(selectEmptyTable);
+    this.counter$ = store.select(selectGetCounter);
   }
 
   ngOnInit(): void {

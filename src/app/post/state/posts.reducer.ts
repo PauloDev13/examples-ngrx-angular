@@ -11,14 +11,14 @@ import { initialState, IPostsState, postsAdapter } from './posts.state';
 const _postsReducer = createReducer(
   initialState,
   on(loadSuccessPosts, (state, action): IPostsState => {
-    return postsAdapter.setAll(action.posts, state);
+    return postsAdapter.setAll(action.posts, { ...state, counter: action.posts.length });
     // return {
     //   ...state,
     //   posts: action.posts,
     // };
   }),
   on(addSuccessPost, (state, action): IPostsState => {
-    return postsAdapter.addOne(action.post, state);
+    return postsAdapter.addOne(action.post, { ...state, counter: state.counter + 1 });
     // let post = { ...action.post };
     //
     // return {
@@ -40,7 +40,7 @@ const _postsReducer = createReducer(
   }),
 
   on(deleteSuccessPost, (state, action): IPostsState => {
-    return postsAdapter.removeOne(action.id!, state);
+    return postsAdapter.removeOne(action.id!, { ...state, counter: state.counter - 1 });
     // const deletedPost = state.posts.filter((post) => {
     //   return post.id !== action.id;
     // });

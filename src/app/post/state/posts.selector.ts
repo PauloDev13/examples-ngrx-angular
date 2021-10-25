@@ -25,6 +25,11 @@ export const selectPostByIdProps = createSelector(
   },
 );
 
+export const selectGetCounter = createSelector(
+  selectPostsState,
+  (state) => state.counter,
+);
+
 // export const selectPosts = createSelector(selectPostsState, (state: IPostsState) => {
 //   return state.posts;
 // });
