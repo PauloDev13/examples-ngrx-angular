@@ -8,6 +8,7 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
 import { AuthEffects } from '~/auth/state/auth.effects';
 import { AuthTokenInterceptor } from '~/interceptors/auth-token.interceptor';
+import { PostsModule } from '~/posts/posts/posts.module';
 import { appReducer } from '~/store/app.state';
 import { CustomSerializer } from '~/store/router/custom-serializer';
 
@@ -33,6 +34,7 @@ import { LoadingSpinnerComponent } from './shared/components/loading-spinner/loa
     StoreRouterConnectingModule.forRoot({
       serializer: CustomSerializer,
     }),
+    PostsModule,
   ],
   providers: [
     {
