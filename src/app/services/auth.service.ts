@@ -41,7 +41,7 @@ export class AuthService {
   }
 
   setUserLocalStorage(user: UserModel) {
-    console.log('setUserLocalStorage ' + JSON.stringify(user));
+    // console.log('setUserLocalStorage ' + JSON.stringify(user));
     if (user) {
       localStorage.setItem('user', JSON.stringify(user));
     }

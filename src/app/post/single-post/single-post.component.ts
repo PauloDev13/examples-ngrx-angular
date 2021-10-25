@@ -13,7 +13,7 @@ import { setLoadingSpinner } from '~/store/shared/shared.actions';
   styleUrls: ['./single-post.component.scss'],
 })
 export class SinglePostComponent implements OnInit {
-  post$: Observable<TPost | undefined>;
+  post$: Observable<TPost | null | undefined>;
 
   constructor(private store: Store<TAppState>) {
     this.post$ = this.store.select(selectPostByIdProps);

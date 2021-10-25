@@ -1,23 +1,40 @@
+import { Dictionary } from '@ngrx/entity';
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 
-import { POSTS_STATE_NAME, TPosts } from '~/interfaces/post.interface';
+import { POSTS_STATE_NAME, TPost } from '~/interfaces/post.interface';
 import { RouterStateUrl } from '~/store/router/custom-serializer';
 import { selectCurrentRoute } from '~/store/router/router.selector';
 
-import { TPostsState } from './posts.state';
+import { IPostsState, postsAdapter } from './posts.state';
 
-const selectPostsState = createFeatureSelector<TPostsState>(POSTS_STATE_NAME);
+const selectPostsState = createFeatureSelector<IPostsState>(POSTS_STATE_NAME);
+export const postsSelectors = postsAdapter.getSelectors();
 
-export const selectPosts = createSelector(selectPostsState, (state: TPostsState) => {
-  return state.posts;
-});
+export const selectPosts = createSelector(selectPostsState, postsSelectors.selectAll);
+
+export const selectPostEntities = createSelector(
+  selectPostsState,
+  postsSelectors.selectEntities,
+);
 
 export const selectPostByIdProps = createSelector(
-  selectPosts,
+  selectPostEntities,
   selectCurrentRoute,
-  (posts: TPosts, route: RouterStateUrl) =>
-    posts.find((post) => post.id === route.params['id'] ?? null),
+  (posts: Dictionary<TPost>, route: RouterStateUrl) => {
+    return posts ? posts[route.params['id']] : null;
+  },
 );
+
+// export const selectPosts = createSelector(selectPostsState, (state: IPostsState) => {
+//   return state.posts;
+// });
+
+// export const selectPostByIdProps = createSelector(
+//   selectPosts,
+//   selectCurrentRoute,
+//   (posts: TPosts, route: RouterStateUrl) =>
+//     posts.find((post) => post.id === route.params['id'] ?? null),
+// );
 
 // export const selectPostByIdProps = (props: { id: string }) =>
 //   createSelector(selectPostsState, (state: TPostsState) =>

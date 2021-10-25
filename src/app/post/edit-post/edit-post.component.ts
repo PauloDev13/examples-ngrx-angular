@@ -31,7 +31,7 @@ export class EditPostComponent implements OnInit, OnDestroy {
     this.createForm();
     this.postSubscription = this.store
       .select(selectPostByIdProps)
-      .subscribe((post: TPost | undefined) => {
+      .subscribe((post: TPost | null | undefined) => {
         if (post) {
           this.post = post;
           const { title, description } = this.post;
