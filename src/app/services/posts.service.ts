@@ -48,4 +48,10 @@ export class PostsService {
       `https://ng-fitness-tracker-b6920-default-rtdb.firebaseio.com/posts/${id}.json`,
     );
   }
+
+  getPostById(id: string | undefined): Observable<TPost> {
+    return this.http.get<TPost>(
+      `https://ng-fitness-tracker-b6920-default-rtdb.firebaseio.com/posts/${id}.json`,
+    );
+  }
 }

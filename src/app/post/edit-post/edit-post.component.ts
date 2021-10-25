@@ -8,6 +8,7 @@ import { TPost } from '~/interfaces/post.interface';
 import { updatePost } from '~/post/state/posts.actions';
 import { selectPostByIdProps } from '~/post/state/posts.selector';
 import { TAppState } from '~/store/app.state';
+import { setLoadingSpinner } from '~/store/shared/shared.actions';
 
 @Component({
   selector: 'app-edit-post',
@@ -70,7 +71,7 @@ export class EditPostComponent implements OnInit, OnDestroy {
       ...this.editForm.value,
       id: this.post.id,
     };
-
+    this.store.dispatch(setLoadingSpinner({ status: true }));
     this.store.dispatch(updatePost({ post }));
     this.route.navigate(['/posts']).then();
   }

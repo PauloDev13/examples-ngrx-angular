@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { ROUTER_NAVIGATION, RouterNavigatedAction } from '@ngrx/router-store';
 import { Store } from '@ngrx/store';
 import { of } from 'rxjs';
-import { catchError, exhaustMap, map } from 'rxjs/operators';
+import { catchError, exhaustMap, filter, map, switchMap } from 'rxjs/operators';
 
 import { TPosts } from '~/interfaces/post.interface';
 import {
@@ -37,6 +38,7 @@ export class PostsEffects {
             } else {
               this.store.dispatch(setEmptyTable({ status: true }));
             }
+            this.store.dispatch(setLoadingSpinner({ status: false }));
             return loadSuccessPosts({ posts });
           }),
           // catchError((errResponse) => {
@@ -47,6 +49,27 @@ export class PostsEffects {
           //     }),
           //   );
           // }),
+        );
+      }),
+    );
+  });
+
+  getSinglePost$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(ROUTER_NAVIGATION),
+      filter((r: RouterNavigatedAction) => {
+        return r.payload.routerState.url.startsWith('/posts/detail');
+      }),
+      map((r: RouterNavigatedAction | any) => {
+        return r.payload.routerState['params']['id'];
+      }),
+      switchMap((id) => {
+        return this.postsService.getPostById(id).pipe(
+          map((post) => {
+            const postData = [{ ...post, id }];
+            this.store.dispatch(setLoadingSpinner({ status: false }));
+            return loadSuccessPosts({ posts: postData });
+          }),
         );
       }),
     );
@@ -86,9 +109,11 @@ export class PostsEffects {
       exhaustMap((action) => {
         return this.postsService.updatePost(action.post).pipe(
           map(() => {
+            this.store.dispatch(setLoadingSpinner({ status: false }));
             return updateSuccessPost({ post: action.post });
           }),
           catchError((errResponse) => {
+            this.store.dispatch(setLoadingSpinner({ status: false }));
             const message = this.authService.getErrorMessage(
               errResponse.error.error.message,
             );
@@ -111,6 +136,7 @@ export class PostsEffects {
           map(() => {
             this.store.dispatch(setLoadingSpinner({ status: false }));
             this.store.dispatch(setEmptyTable({ status: false }));
+            this.store.dispatch(loadPosts());
             return deleteSuccessPost({ id: action.id });
           }),
           catchError((errResponse) => {

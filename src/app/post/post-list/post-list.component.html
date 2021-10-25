@@ -23,6 +23,8 @@
             <a [routerLink]="['edit', post.id]" class="btn btn-primary btn-sm">Update</a>
             &nbsp;
             <a (click)="onDeletePost(post)" class="btn btn-danger btn-sm">Delete</a>
+            &nbsp;
+            <a [routerLink]="['detail', post.id]" class="btn btn-info btn-sm">Details</a>
           </td>
         </tr>
       </tbody>

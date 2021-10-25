@@ -21,6 +21,7 @@ export class PostListComponent implements OnInit {
   constructor(private store: Store<TAppState>) {
     this.posts$ = this.store.select(selectPosts);
     this.isEmptyTable$ = this.store.select(selectEmptyTable);
+    this.store.dispatch(setLoadingSpinner({ status: true }));
   }
 
   ngOnInit(): void {

@@ -11,10 +11,16 @@ import { AddPostComponent } from './add-post/add-post.component';
 import { EditPostComponent } from './edit-post/edit-post.component';
 import { PostListComponent } from './post-list/post-list.component';
 import { PostRoutingModule } from './post-routing.module';
+import { SinglePostComponent } from './single-post/single-post.component';
 import { postsReducer } from './state/posts.reducer';
 
 @NgModule({
-  declarations: [PostListComponent, AddPostComponent, EditPostComponent],
+  declarations: [
+    PostListComponent,
+    AddPostComponent,
+    EditPostComponent,
+    SinglePostComponent,
+  ],
   imports: [
     CommonModule,
     PostRoutingModule,
