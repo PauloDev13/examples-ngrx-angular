@@ -5,7 +5,8 @@ import { Observable } from 'rxjs';
 import { TPost } from '~/interfaces/post.interface';
 import { selectPostByIdProps } from '~/post/state/posts.selector';
 import { TAppState } from '~/store/app.state';
-import { setLoadingSpinner } from '~/store/shared/shared.actions';
+
+// import { setLoadingSpinner } from '~/store/shared/shared.actions';
 
 @Component({
   selector: 'app-single-post',
@@ -17,7 +18,7 @@ export class SinglePostComponent implements OnInit {
 
   constructor(private store: Store<TAppState>) {
     this.post$ = this.store.select(selectPostByIdProps);
-    this.store.dispatch(setLoadingSpinner({ status: true }));
+    // this.store.dispatch(setLoadingSpinner({ status: true }));
   }
 
   ngOnInit(): void {}

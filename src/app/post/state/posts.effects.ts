@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
-import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { Actions, createEffect, ofType, concatLatestFrom } from '@ngrx/effects';
 import { Update } from '@ngrx/entity';
 import { ROUTER_NAVIGATION, RouterNavigatedAction } from '@ngrx/router-store';
 import { Store } from '@ngrx/store';
 import { of } from 'rxjs';
 import { catchError, exhaustMap, filter, map, switchMap } from 'rxjs/operators';
 
+import { dummyAction } from '~/auth/state/auth.actions';
 import { TPost, TPosts } from '~/interfaces/post.interface';
 import {
   addPost,
@@ -17,6 +18,7 @@ import {
   updatePost,
   updateSuccessPost,
 } from '~/post/state/posts.actions';
+import { selectPosts } from '~/post/state/posts.selector';
 import { AuthService } from '~/services/auth.service';
 import { PostsService } from '~/services/posts.service';
 import { TAppState } from '~/store/app.state';
@@ -31,26 +33,24 @@ export class PostsEffects {
   loadPosts$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(loadPosts),
-      exhaustMap(() => {
-        return this.postsService.getPosts().pipe(
-          map((posts: TPosts) => {
-            if (posts.length === 0) {
-              this.store.dispatch(setEmptyTable({ status: false }));
-            } else {
-              this.store.dispatch(setEmptyTable({ status: true }));
-            }
-            this.store.dispatch(setLoadingSpinner({ status: false }));
-            return loadSuccessPosts({ posts });
-          }),
-          // catchError((errResponse) => {
-          //   const message = this.authService.getErrorMessage(errResponse.error.error);
-          //   return of(
-          //     setErrorMessage({
-          //       message,
-          //     }),
-          //   );
-          // }),
-        );
+      concatLatestFrom(() => this.store.select(selectPosts)),
+      exhaustMap(([_, posts]) => {
+        if (!posts.length || posts.length === 1) {
+          return this.postsService.getPosts().pipe(
+            map((posts: TPosts) => {
+              return loadSuccessPosts({ posts });
+            }),
+            // catchError((errResponse) => {
+            //   const message = this.authService.getErrorMessage(errResponse.error.error);
+            //   return of(
+            //     setErrorMessage({
+            //       message,
+            //     }),
+            //   );
+            // }),
+          );
+        }
+        return of(dummyAction());
       }),
     );
   });
@@ -64,14 +64,17 @@ export class PostsEffects {
       map((r: RouterNavigatedAction | any) => {
         return r.payload.routerState['params']['id'];
       }),
-      switchMap((id) => {
-        return this.postsService.getPostById(id).pipe(
-          map((post) => {
-            const postData = [{ ...post, id }];
-            this.store.dispatch(setLoadingSpinner({ status: false }));
-            return loadSuccessPosts({ posts: postData });
-          }),
-        );
+      concatLatestFrom(() => this.store.select(selectPosts)),
+      switchMap(([_, posts]) => {
+        if (!posts.length) {
+          return this.postsService.getPosts().pipe(
+            map((post) => {
+              // const postData = [{ ...post, id }];
+              return loadSuccessPosts({ posts: post });
+            }),
+          );
+        }
+        return of(dummyAction());
       }),
     );
   });
@@ -142,7 +145,7 @@ export class PostsEffects {
         return this.postsService.deletePost(action.id).pipe(
           map(() => {
             this.store.dispatch(setLoadingSpinner({ status: false }));
-            this.store.dispatch(setEmptyTable({ status: false }));
+            // this.store.dispatch(setEmptyTable({ status: false }));
             this.store.dispatch(loadPosts());
             return deleteSuccessPost({ id: action.id });
           }),

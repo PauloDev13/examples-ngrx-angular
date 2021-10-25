@@ -1,15 +1,18 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { TPost } from '~/interfaces/post.interface';
+import { TAppState } from '~/store/app.state';
+import { setEmptyTable } from '~/store/shared/shared.actions';
 
 @Injectable({
   providedIn: 'root',
 })
 export class PostsService {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private store: Store<TAppState>) {}
 
   getPosts(): Observable<TPost[]> {
     return this.http
@@ -22,6 +25,14 @@ export class PostsService {
           for (let key in data) {
             posts.push({ ...data[key], id: key });
           }
+
+          if (posts.length === 0) {
+            this.store.dispatch(setEmptyTable({ status: false }));
+          } else {
+            this.store.dispatch(setEmptyTable({ status: true }));
+          }
+          // this.store.dispatch(setLoadingSpinner({ status: false }));
+
           return posts;
         }),
       );
