@@ -13,7 +13,7 @@ export class ListPostsComponent implements OnInit {
   posts$: Observable<IPostModel[]>;
 
   constructor(private postsEntityService: PostsEntityService) {
-    this.posts$ = this.postsEntityService.getAll();
+    this.posts$ = this.postsEntityService.entities$;
   }
 
   ngOnInit(): void {}
