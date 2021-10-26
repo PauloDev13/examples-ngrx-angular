@@ -1,5 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { EntityDataModule } from '@ngrx/data';
+
+import { entityConfig } from '~/posts/entity-metadata';
 
 import { AddPostComponent } from './add-post/add-post.component';
 import { EditPostComponent } from './edit-post/edit-post.component';
@@ -16,6 +19,6 @@ import { SinglePostComponent } from './single-post/single-post.component';
     ListPostsComponent,
     SinglePostComponent,
   ],
-  imports: [CommonModule, PostsRoutingModule],
+  imports: [CommonModule, PostsRoutingModule, EntityDataModule.forRoot(entityConfig)],
 })
 export class PostsModule {}
