@@ -1,8 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { EntityDataModule } from '@ngrx/data';
+import { EntityDataModule, EntityDataService } from '@ngrx/data';
 
 import { entityConfig } from '~/posts/entity-metadata';
+import { PostsDataService } from '~/posts/services/posts-data.service';
 
 import { AddPostComponent } from './add-post/add-post.component';
 import { EditPostComponent } from './edit-post/edit-post.component';
@@ -21,4 +22,8 @@ import { SinglePostComponent } from './single-post/single-post.component';
   ],
   imports: [CommonModule, PostsRoutingModule, EntityDataModule.forRoot(entityConfig)],
 })
-export class PostsModule {}
+export class PostsModule {
+  constructor(entityDataService: EntityDataService, postsDataService: PostsDataService) {
+    entityDataService.registerService('Post', postsDataService);
+  }
+}

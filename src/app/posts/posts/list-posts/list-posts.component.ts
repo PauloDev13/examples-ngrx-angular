@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
 
+import { IPostModel } from '~/posts/models/post-model';
 import { PostsEntityService } from '~/posts/services/posts-entity.service';
 
 @Component({
@@ -8,9 +10,11 @@ import { PostsEntityService } from '~/posts/services/posts-entity.service';
   styleUrls: ['./list-posts.component.scss'],
 })
 export class ListPostsComponent implements OnInit {
-  constructor(private postsEntityService: PostsEntityService) {}
+  posts$: Observable<IPostModel[]>;
 
-  ngOnInit(): void {
-    this.postsEntityService.getAll();
+  constructor(private postsEntityService: PostsEntityService) {
+    this.posts$ = this.postsEntityService.getAll();
   }
+
+  ngOnInit(): void {}
 }

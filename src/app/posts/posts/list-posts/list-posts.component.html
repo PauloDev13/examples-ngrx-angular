@@ -1,1 +1,18 @@
-<p>list-posts works!</p>
+<h1>Lista de Posts</h1>
+<table>
+  <thead>
+    <tr>
+      <th>Id</th>
+      <th>Título</th>
+      <th>Descrição</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <tr *ngFor="let post of posts$ | async">
+      <td>{{ post.id }}</td>
+      <td>{{ post.title }}</td>
+      <td>{{ post.description }}</td>
+    </tr>
+  </tbody>
+</table>
