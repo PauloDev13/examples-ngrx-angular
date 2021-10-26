@@ -1,1 +1,42 @@
-<p>add-post works!</p>
+<div class="row my-4">
+  <div class="col-md-12">
+    <h3>Add Post</h3>
+    <hr />
+    <form (ngSubmit)="onAddPost()" [formGroup]="addForm">
+      <div class="mb-3">
+        <label>Título</label>
+        <input class="form-control" formControlName="title" type="text" />
+        <div *ngIf="addForm.get('title')?.touched && !addForm.get('title')?.valid">
+          <p *ngIf="addForm.controls.title.hasError('required')" style="color: red">
+            Título é obrigatório
+          </p>
+
+          <p
+            *ngIf="
+              addForm.controls.title.errors && !addForm.controls.title.errors.required
+            "
+            style="color: red"
+          >
+            Título deve ter no mínimo 6 caracteres
+          </p>
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <label>Description</label>
+        <textarea class="form-control" formControlName="description"></textarea>
+        <p style="color: red">{{ showDescriptionErrors() }}</p>
+      </div>
+
+      <div class="mb-3">
+        <button [disabled]="addForm.invalid" class="btn btn-primary btn-sm" type="submit">
+          Salvar
+        </button>
+        &nbsp;
+        <button [routerLink]="['/posts-new']" class="btn btn-secondary btn-sm">
+          Cancelar
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
 import { EntityDataModule, EntityDataService } from '@ngrx/data';
 
 import { entityConfig } from '~/posts/entity-metadata';
@@ -20,7 +21,12 @@ import { SinglePostComponent } from './single-post/single-post.component';
     ListPostsComponent,
     SinglePostComponent,
   ],
-  imports: [CommonModule, PostsRoutingModule, EntityDataModule.forRoot(entityConfig)],
+  imports: [
+    CommonModule,
+    PostsRoutingModule,
+    ReactiveFormsModule,
+    EntityDataModule.forRoot(entityConfig),
+  ],
 })
 export class PostsModule {
   constructor(entityDataService: EntityDataService, postsDataService: PostsDataService) {

@@ -27,4 +27,29 @@ export class PostsDataService extends DefaultDataService<IPostModel> {
       }),
     );
   }
+
+  add(post: IPostModel): Observable<IPostModel> {
+    return this.http
+      .post<{ name: string }>(`${environment.FIREBASE_API_URL}/posts.json`, post)
+      .pipe(
+        map((data) => {
+          return { ...post, id: data.name };
+        }),
+      );
+  }
+
+  // update(post: Update<IPostModel>): Observable<IPostModel> {
+  //   /const { id, title, description } = post;
+  //   const postData = { [id as string]: { post } };
+  //   return this.http.patch<TPost>(
+  //     `https://ng-fitness-tracker-b6920-default-rtdb.firebaseio.com/posts.json`,
+  //     postData,
+  //   );
+  // }
+
+  // delete(id: string | undefined): Observable<string | undefined> {
+  //   return this.http.delete<string>(
+  //     `https://ng-fitness-tracker-b6920-default-rtdb.firebaseio.com/posts/${id}.json`,
+  //   );
+  // }
 }
