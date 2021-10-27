@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { DefaultDataService, HttpUrlGenerator } from '@ngrx/data';
+import { Update } from '@ngrx/entity';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
@@ -38,14 +39,12 @@ export class PostsDataService extends DefaultDataService<IPostModel> {
       );
   }
 
-  // update(post: Update<IPostModel>): Observable<IPostModel> {
-  //   /const { id, title, description } = post;
-  //   const postData = { [id as string]: { post } };
-  //   return this.http.patch<TPost>(
-  //     `https://ng-fitness-tracker-b6920-default-rtdb.firebaseio.com/posts.json`,
-  //     postData,
-  //   );
-  // }
+  update(post: Update<IPostModel>): Observable<IPostModel> {
+    return this.http.patch<IPostModel>(
+      `https://ng-fitness-tracker-b6920-default-rtdb.firebaseio.com/posts/${post.id}.json`,
+      { ...post.changes },
+    );
+  }
 
   // delete(id: string | undefined): Observable<string | undefined> {
   //   return this.http.delete<string>(

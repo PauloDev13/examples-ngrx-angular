@@ -35,9 +35,11 @@ export class AddPostComponent implements OnInit {
       return;
     }
     const post: IPostModel = this.addForm.value;
-    this.postsEntityService.add(post).subscribe(() => {
-      this.router.navigate(['/posts-new']).then();
-    });
+    this.postsEntityService.add(post);
+    this.router.navigate(['/posts-new']).then();
+    // this.postsEntityService.add(post).subscribe(() => {
+    //   this.router.navigate(['/posts-new']).then();
+    // });
   }
 
   showDescriptionErrors(): string {

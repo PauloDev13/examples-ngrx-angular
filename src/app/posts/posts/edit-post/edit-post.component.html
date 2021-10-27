@@ -1,1 +1,44 @@
-<p>edit-post works!</p>
+<div class="row my-4">
+  <div class="col-md-12">
+    <h3>Editar Post</h3>
+    <hr />
+    <form (ngSubmit)="onSubmit()" [formGroup]="editForm">
+      <div class="mb-3">
+        <label>Title</label>
+        <input class="form-control" formControlName="title" type="text" />
+        <div *ngIf="editForm.get('title')?.touched && !editForm.get('title')?.valid">
+          <p *ngIf="editForm.controls.title.hasError('required')" style="color: red">
+            Title is required
+          </p>
+
+          <p
+            *ngIf="
+              editForm.controls.title.errors && !editForm.controls.title.errors.required
+            "
+            style="color: red"
+          >
+            Title should be minimum 6 characters
+          </p>
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <label>Description</label>
+        <textarea class="form-control" formControlName="description"></textarea>
+        <p style="color: red">{{ showDescriptionErrors() }}</p>
+      </div>
+
+      <div class="mb-3">
+        <button
+          [disabled]="editForm.invalid"
+          class="btn btn-primary btn-sm"
+          type="submit"
+        >
+          Save
+        </button>
+        &nbsp;
+        <button [routerLink]="['/posts']" class="btn btn-secondary btn-sm">Cancel</button>
+      </div>
+    </form>
+  </div>
+</div>
