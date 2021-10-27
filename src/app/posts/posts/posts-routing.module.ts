@@ -25,10 +25,12 @@ const routes: Routes = [
   {
     path: 'posts-new/edit/:id',
     component: EditPostComponent,
+    resolve: { posts: PostsResolver },
   },
   {
     path: 'posts-new/single/:id',
     component: SinglePostComponent,
+    resolve: { posts: PostsResolver },
   },
 ];
 

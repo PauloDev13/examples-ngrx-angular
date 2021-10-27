@@ -18,6 +18,8 @@
         <a [routerLink]="['edit', post.id]">Editar</a>
         &nbsp;
         <a (click)="onDeletePost($event, post)" href="#">Excluir</a>
+        &nbsp;
+        <a [routerLink]="['single', post.id]">Detalhes</a>
       </td>
     </tr>
   </tbody>

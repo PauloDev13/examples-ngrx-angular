@@ -26,13 +26,15 @@ export class EditPostComponent implements OnInit {
   ngOnInit(): void {
     this.id = this.activatedRoute.snapshot.params.id;
     this.postsEntityService.entities$.subscribe((posts) => {
-      const { title, description } = posts.find(
-        (post) => post.id === this.id,
-      ) as IPostModel;
-      this.editForm.patchValue({
-        title,
-        description,
-      });
+      if (posts.length) {
+        const { title, description } = posts.find(
+          (post) => post.id === this.id,
+        ) as IPostModel;
+        this.editForm.patchValue({
+          title,
+          description,
+        });
+      }
     });
   }
 

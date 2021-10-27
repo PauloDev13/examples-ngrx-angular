@@ -1,1 +1,7 @@
-<p>single-post works!</p>
+<div>Post Details</div>
+<div *ngIf="post">
+  <div>Id: {{ post.id }}</div>
+  <div>Título: {{ post.title }}</div>
+  <div>Descrição: {{ post.description }}</div>
+</div>
+<div><a [routerLink]="['/posts-new']">Voltar</a></div>
