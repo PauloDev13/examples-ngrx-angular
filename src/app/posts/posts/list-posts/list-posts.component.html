@@ -17,7 +17,7 @@
       <td>
         <a [routerLink]="['edit', post.id]">Editar</a>
         &nbsp;
-        <a href="#">Excluir</a>
+        <a (click)="onDeletePost($event, post)" href="#">Excluir</a>
       </td>
     </tr>
   </tbody>

@@ -17,4 +17,11 @@ export class ListPostsComponent implements OnInit {
   }
 
   ngOnInit(): void {}
+
+  onDeletePost(event: Event, post: IPostModel) {
+    event.preventDefault();
+    if (confirm(`Are you sure want to delete Post: ${post.title.toUpperCase()}?`)) {
+      this.postsEntityService.delete(post.id ?? '');
+    }
+  }
 }

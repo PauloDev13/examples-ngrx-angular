@@ -46,9 +46,15 @@ export class PostsDataService extends DefaultDataService<IPostModel> {
     );
   }
 
-  // delete(id: string | undefined): Observable<string | undefined> {
-  //   return this.http.delete<string>(
-  //     `https://ng-fitness-tracker-b6920-default-rtdb.firebaseio.com/posts/${id}.json`,
-  //   );
-  // }
+  delete(id: string): Observable<string> {
+    return this.http
+      .delete<string>(
+        `https://ng-fitness-tracker-b6920-default-rtdb.firebaseio.com/posts/${id}.json`,
+      )
+      .pipe(
+        map(() => {
+          return id;
+        }),
+      );
+  }
 }
