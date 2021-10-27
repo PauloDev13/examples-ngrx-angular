@@ -12,6 +12,10 @@ const routes: Routes = [
     component: HomeComponent,
   },
   {
+    path: 'posts-new',
+    loadChildren: () => import('./posts/posts/posts.module').then((m) => m.PostsModule),
+  },
+  {
     path: 'counter',
     loadChildren: () => import('./counter/counter.module').then((m) => m.CounterModule),
   },

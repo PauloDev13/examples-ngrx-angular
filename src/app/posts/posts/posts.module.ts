@@ -1,9 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import { EntityDataModule, EntityDataService } from '@ngrx/data';
+import { EntityDataService, EntityDefinitionService } from '@ngrx/data';
 
-import { entityConfig } from '~/posts/entity-metadata';
+import { entityMetadata } from '~/posts/entity-metadata';
 import { PostsDataService } from '~/posts/services/posts-data.service';
 
 import { AddPostComponent } from './add-post/add-post.component';
@@ -25,11 +25,20 @@ import { SinglePostComponent } from './single-post/single-post.component';
     CommonModule,
     PostsRoutingModule,
     ReactiveFormsModule,
-    EntityDataModule.forRoot(entityConfig),
+    // EntityDataModule.forRoot(entityConfig),
   ],
 })
 export class PostsModule {
-  constructor(entityDataService: EntityDataService, postsDataService: PostsDataService) {
+  constructor(
+    entityDefinitionService: EntityDefinitionService,
+    postsDataService: PostsDataService,
+    entityDataService: EntityDataService,
+  ) {
+    entityDefinitionService.registerMetadataMap(entityMetadata);
     entityDataService.registerService('Post', postsDataService);
   }
+
+  // constructor(entityDataService: EntityDataService, postsDataService: PostsDataService) {
+  //   entityDataService.registerService('Post', postsDataService);
+  // }
 }
